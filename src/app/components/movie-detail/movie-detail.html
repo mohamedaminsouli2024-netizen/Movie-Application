@@ -1,0 +1,82 @@
+<a class="back" routerLink="/">
+  <fa-icon [icon]="faArrowLeft" />
+  Back to movies
+</a>
+
+@if (loading()) {
+  <div class="state">
+    <div class="spinner" aria-hidden="true"></div>
+    <p>Loading movie…</p>
+  </div>
+} @else {
+  @if (movie(); as m) {
+    <section class="hero">
+      @if (backdrop(); as bg) {
+        <img class="backdrop" [src]="bg" alt="" />
+      }
+
+      <div class="hero-inner">
+        <div class="poster">
+          @if (poster(); as src) {
+            <img [src]="src" [alt]="m.title" />
+          } @else {
+            <div class="no-poster">
+              <fa-icon [icon]="faFilm" />
+              <span>No poster</span>
+            </div>
+          }
+        </div>
+
+        <div class="info">
+          <h1>{{ m.title }}</h1>
+
+          <button
+            type="button"
+            class="wish-action"
+            [class.on]="wished()"
+            [attr.aria-pressed]="wished()"
+            (click)="toggleWish()"
+          >
+            <fa-icon [icon]="faHeart" />
+            {{ wished() ? 'In your wish list' : 'Add to wish list' }}
+          </button>
+
+          <div class="cards">
+            <div class="card-info">
+              <h3>Original title</h3>
+              <p>{{ m.original_title }}</p>
+            </div>
+            <div class="card-info">
+              <h3>Original language</h3>
+              <p>{{ m.original_language }}</p>
+            </div>
+            <div class="card-info">
+              <h3>Release date</h3>
+              <p>{{ (m.release_date | date: 'mediumDate') ?? '—' }}</p>
+            </div>
+            <div class="card-info">
+              <h3>Vote average</h3>
+              <p>
+                <fa-icon [icon]="faStar" class="star" />
+                {{ m.vote_average | number: '1.1-1' }}
+              </p>
+            </div>
+            <div class="card-info">
+              <h3>Vote count</h3>
+              <p>{{ m.vote_count | number }}</p>
+            </div>
+          </div>
+
+          <h2>Overview</h2>
+          <p class="overview">{{ m.overview || 'No overview available for this movie.' }}</p>
+        </div>
+      </div>
+    </section>
+  } @else {
+    <div class="state">
+      <fa-icon [icon]="faCircleExclamation" />
+      <p>This movie could not be loaded.</p>
+      <a routerLink="/">Browse movies</a>
+    </div>
+  }
+}

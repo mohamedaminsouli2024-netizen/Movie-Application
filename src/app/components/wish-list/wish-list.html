@@ -1,0 +1,70 @@
+<div class="page-head">
+  <div>
+    <a class="back" routerLink="/">
+      <fa-icon [icon]="faArrowLeft" />
+      Browse movies
+    </a>
+    <h1>
+      <fa-icon [icon]="faHeart" />
+      My Wish List
+    </h1>
+    <p class="sub">
+      {{ wish.count() }} {{ wish.count() === 1 ? 'movie' : 'movies' }} saved
+    </p>
+  </div>
+
+  @if (wish.count() > 0) {
+    <div class="tools">
+      <select aria-label="Sort wish list" (change)="onSortChange($event)">
+        <option value="added">Recently added</option>
+        <option value="title">Title (A–Z)</option>
+        <option value="rating">Highest rated</option>
+        <option value="release">Newest release</option>
+      </select>
+      <button type="button" class="danger" (click)="clearAll()">
+        <fa-icon [icon]="faTrashCan" />
+        Clear all
+      </button>
+    </div>
+  }
+</div>
+
+@if (wish.count() === 0) {
+  <div class="empty">
+    <fa-icon [icon]="faHeart" />
+    <h2>Your wish list is empty</h2>
+    <p>Tap the heart on any movie to save it here for later.</p>
+    <a class="cta" routerLink="/">Discover movies</a>
+  </div>
+} @else {
+  <section class="grid">
+    @for (movie of sorted(); track movie.id; let i = $index) {
+      <article class="item" [style.animation-delay]="i * 40 + 'ms'">
+        <a class="poster" [routerLink]="['/movie', movie.id]" [attr.aria-label]="movie.title">
+          @if (posterUrl(movie.poster_path); as src) {
+            <img [src]="src" [alt]="movie.title" loading="lazy" />
+          } @else {
+            <div class="no-poster">
+              <fa-icon [icon]="faFilm" />
+            </div>
+          }
+        </a>
+
+        <div class="body">
+          <a class="name" [routerLink]="['/movie', movie.id]">{{ movie.title }}</a>
+          <p class="meta">
+            {{ (movie.release_date | date: 'yyyy') ?? '—' }}
+            @if (movie.vote_average > 0) {
+              · <fa-icon [icon]="faStar" class="star" />
+              {{ movie.vote_average | number: '1.1-1' }}
+            }
+          </p>
+          <button type="button" class="remove" (click)="wish.remove(movie.id)">
+            <fa-icon [icon]="faTrashCan" />
+            Remove
+          </button>
+        </div>
+      </article>
+    }
+  </section>
+}

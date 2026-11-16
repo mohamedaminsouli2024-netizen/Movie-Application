@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px 28px 22px;
+}
+
+.heading h2 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+}
+
+.count {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 26px;
+  padding: 8px 28px 48px;
+}
+
+.placeholder {
+  aspect-ratio: 2 / 3;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #111 25%, #1f1f1f 37%, #111 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--muted);
+}
+
+.state fa-icon {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.state p {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}

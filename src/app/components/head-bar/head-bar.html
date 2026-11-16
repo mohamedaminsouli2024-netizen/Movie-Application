@@ -1,0 +1,12 @@
+<header class="bar">
+  <a class="brand" routerLink="/" aria-label="My Movie-DB home">
+    <fa-icon [icon]="faFilm" />
+    <span>My Movie-DB</span>
+  </a>
+
+  <a class="wish-btn" routerLink="/wish-list" routerLinkActive="active" aria-label="Open my wish list">
+    <span class="label">Wish List</span>
+    <fa-icon [icon]="faHeart" />
+    <span class="badge" [attr.aria-label]="wish.count() + ' movies'">{{ wish.count() }}</span>
+  </a>
+</header>

@@ -1,0 +1,39 @@
+<section class="grid">
+  @for (movie of movies(); track movie.id; let i = $index) {
+    <article class="card" [style.animation-delay]="i * 40 + 'ms'">
+      <!-- Stretched link: the whole card opens the detail page -->
+      <a class="stretch" [routerLink]="['/movie', movie.id]" [attr.aria-label]="movie.title"></a>
+
+      <button
+        type="button"
+        class="wish"
+        [class.on]="wish.has(movie.id)"
+        [attr.aria-pressed]="wish.has(movie.id)"
+        [attr.aria-label]="wish.has(movie.id) ? 'Remove from wish list' : 'Add to wish list'"
+        (click)="wish.toggle(movie)"
+      >
+        <fa-icon [icon]="faHeart" />
+      </button>
+
+      <div class="poster">
+        @if (posterUrl(movie.poster_path); as src) {
+          <img [src]="src" [alt]="movie.title" loading="lazy" />
+        } @else {
+          <div class="no-poster">
+            <fa-icon [icon]="faFilm" />
+            <span>No poster</span>
+          </div>
+        }
+
+        @if (movie.vote_average > 0) {
+          <span class="rating">
+            <fa-icon [icon]="faStar" />
+            {{ movie.vote_average | number: '1.1-1' }}
+          </span>
+        }
+      </div>
+
+      <h3 class="title-bar">{{ movie.title }}</h3>
+    </article>
+  }
+</section>

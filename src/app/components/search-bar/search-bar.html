@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="search-box" [class.filled]="hasText()">
+    <label for="title">Title</label>
+    <input
+      #movieTitle
+      type="text"
+      id="title"
+      placeholder="e.g. Dexter"
+      autocomplete="off"
+      (input)="onInput(movieTitle.value)"
+      (keydown.escape)="clear(movieTitle)"
+    />
+    @if (hasText()) {
+      <button type="button" class="clear" (click)="clear(movieTitle)" aria-label="Clear search">
+        <fa-icon [icon]="faXmark" />
+      </button>
+    }
+    <fa-icon class="icon" [icon]="faMagnifyingGlass" />
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<app-search-bar (titleChange)="onSearch($event)" />
+
+<div class="heading">
+  <h2>{{ heading() }}</h2>
+  @if (!loading() && !error()) {
+    <span class="count">{{ movies().length }} {{ movies().length === 1 ? 'result' : 'results' }}</span>
+  }
+</div>
+
+@if (loading()) {
+  <section class="grid" aria-busy="true" aria-label="Loading movies">
+    @for (i of placeholders; track i) {
+      <div class="placeholder"></div>
+    }
+  </section>
+} @else if (error()) {
+  <div class="state">
+    <fa-icon [icon]="faCircleExclamation" />
+    <p>Could not load movies. Check your connection or API key.</p>
+  </div>
+} @else if (movies().length === 0) {
+  <div class="state">
+    <fa-icon [icon]="faMagnifyingGlass" />
+    <p>No movies found{{ title() ? ' for "' + title() + '"' : '' }}.</p>
+  </div>
+} @else {
+  <app-movie-search [movies]="movies()" />
+}
